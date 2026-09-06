@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.vscode/
+
+lab1_input.txt
+lab1_encoded.txt
+lab1_restored.txt
