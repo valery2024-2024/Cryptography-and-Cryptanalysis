@@ -149,3 +149,29 @@ try:
 except ValueError as error:
     print("Некоректний ключ успішно відхилено")
     print("Причина:", error)
+
+# Частина 5. Обов'язкові самоперевірки
+
+print("\nЧастина 5. Самоперевірки")
+
+assert caesar_encrypt("HELLO", 3) == "KHOOR"
+assert caesar_decrypt("KHOOR", 3) == "HELLO"
+assert caesar_decrypt(caesar_encrypt("ATTACK AT DAWN!", 7), 7) == "ATTACK AT DAWN!"
+
+assert is_valid_affine_key(5) is True
+assert is_valid_affine_key(13) is False
+
+assert affine_encrypt("HELLO", 5, 8) == "RCLLA"
+assert affine_decrypt("RCLLA", 5, 8) == "HELLO"
+assert affine_decrypt(affine_encrypt("ATTACK AT DAWN!", 5, 8), 5, 8) == "ATTACK AT DAWN!"
+
+print("Усі самоперевірки пройдено успішно")
+
+# Частина 6. Короткий висновок
+#
+# Для афінного шифру не можна використовувати будь-яке значення a,
+# тому що воно повинно бути взаємно простим з 26.
+# Шифр Цезаря та афінний шифр не підходять для реального захисту даних,
+# тому що вони прості та їх можна відносно легко зламати.
+
+print("LAB3_OK")
