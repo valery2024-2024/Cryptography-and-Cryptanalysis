@@ -34,6 +34,11 @@ def caesar_decrypt(text: str, shift: int) -> str:
 
     return result
 
+# Частина 2. Перевірка affine-ключа
+
+def is_valid_affine_key(a: int) -> bool:
+    return gcd(a, 26) == 1
+
 print("Частина 1. Шифр Цезаря")
 
 text = "HELLO"
@@ -55,3 +60,9 @@ print("\nДодаткова перевірка:")
 print("Початковий текст:", test_text)
 print("Зашифрований текст:", test_encrypted)
 print("Розшифрований текст:", test_decrypted)
+
+print("\nЧастина 2. Перевірка affine-ключа")
+
+print("a = 5:", is_valid_affine_key(5))
+print("a = 13:", is_valid_affine_key(13))
+print("a = 2:", is_valid_affine_key(2))
