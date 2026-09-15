@@ -118,3 +118,34 @@ print("Ключ a =", a)
 print("Ключ b =", b)
 print("Зашифрований текст:", affine_encrypted)
 print("Розшифрований текст:", affine_decrypted)
+
+# Частина 4. Перевірка оборотності
+
+print("\nЧастина 4. Перевірка оборотності")
+
+test_texts = [
+    "HELLO",
+    "ATTACK AT DAWN!",
+    "TEST 123"
+]
+
+for original in test_texts:
+    encrypted_text = affine_encrypt(original, 5, 8)
+    decrypted_text = affine_decrypt(encrypted_text, 5, 8)
+
+    print("\nПочатковий текст:", original)
+    print("Зашифрований текст:", encrypted_text)
+    print("Розшифрований текст:", decrypted_text)
+
+    assert decrypted_text == original
+
+print("\nУсі тексти успішно відновлено")
+
+print("\nПеревірка некоректного affine-ключа:")
+
+try:
+    affine_encrypt("HELLO", 13, 8)
+    print("Помилка: некоректний ключ не було відхилено")
+except ValueError as error:
+    print("Некоректний ключ успішно відхилено")
+    print("Причина:", error)
