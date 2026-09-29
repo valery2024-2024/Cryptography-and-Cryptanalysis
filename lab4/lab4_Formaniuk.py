@@ -28,3 +28,23 @@ def vigenere_encrypt(text: str, key: str) -> str:
             result += char
 
     return result
+def vigenere_decrypt(text: str, key: str) -> str:
+    validate_vigenere_key(key)
+
+    result = ""
+    key_index = 0
+
+    for char in text:
+        if "A" <= char <= "Z":
+            y = ord(char) - ord("A")
+            shift = ord(key[key_index % len(key)]) - ord("A")
+            x = (y - shift) % 26
+
+            result += chr(x + ord("A"))
+            key_index += 1
+        else:
+            result += char
+
+    return result
+
+
