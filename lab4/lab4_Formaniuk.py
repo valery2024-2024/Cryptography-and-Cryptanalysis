@@ -9,4 +9,22 @@ def validate_vigenere_key(key: str) -> None:
 
     if not all("A" <= char <= "Z" for char in key):
         raise ValueError("Key must contain only A-Z letters")
-    
+
+def vigenere_encrypt(text: str, key: str) -> str:
+    validate_vigenere_key(key)
+
+    result = ""
+    key_index = 0
+
+    for char in text:
+        if "A" <= char <= "Z":
+            x = ord(char) - ord("A")
+            shift = ord(key[key_index % len(key)]) - ord("A")
+            y = (x + shift) % 26
+
+            result += chr(y + ord("A"))
+            key_index += 1
+        else:
+            result += char
+
+    return result
