@@ -44,7 +44,4 @@ def vigenere_decrypt(text: str, key: str) -> str:
             key_index += 1
         else:
             result += char
-
     return result
-
-
