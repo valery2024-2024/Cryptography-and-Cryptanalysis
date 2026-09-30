@@ -70,3 +70,24 @@ def permutation_encrypt(text: str, order: list[int]) -> str:
 
     return result
 
+def permutation_decrypt(text: str, order: list[int]) -> str:
+    validate_permutation_order(order)
+
+    result = ""
+    block_size = len(order)
+
+    inverse_order = [0] * block_size
+    for i, index in enumerate(order):
+        inverse_order[index] = i
+
+    for i in range(0, len(text), block_size):
+        block = text[i:i + block_size]
+
+        if len(block) < block_size:
+            result += block
+        else:
+            for index in inverse_order:
+                result += block[index]
+
+    return result
+
