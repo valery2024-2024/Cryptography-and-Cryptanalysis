@@ -17,3 +17,12 @@ def caesar_decrypt(text: str, shift: int) -> str:
 
     return result
 
+def brute_force_caesar(text: str) -> list[tuple[int, str]]:
+    results = []
+
+    for shift in range(26):
+        decrypted_text = caesar_decrypt(text, shift)
+        results.append((shift, decrypted_text))
+
+    return results
+
