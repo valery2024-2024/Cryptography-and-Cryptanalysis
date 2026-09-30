@@ -52,3 +52,21 @@ def validate_permutation_order(order: list[int]) -> None:
 
     if sorted(order) != list(range(len(order))):
         raise ValueError("Order must be a valid permutation")
+
+def permutation_encrypt(text: str, order: list[int]) -> str:
+    validate_permutation_order(order)
+
+    result = ""
+    block_size = len(order)
+
+    for i in range(0, len(text), block_size):
+        block = text[i:i + block_size]
+
+        if len(block) < block_size:
+            result += block
+        else:
+            for index in order:
+                result += block[index]
+
+    return result
+
