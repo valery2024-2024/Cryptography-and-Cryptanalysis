@@ -123,3 +123,34 @@ def run_vigenere_tests() -> None:
         pass
 
 run_vigenere_tests()
+def run_permutation_tests() -> None:
+    order = [2, 0, 3, 1]
+
+    # 1. Контрольний приклад шифрування
+    assert permutation_encrypt("ABCD", order) == "CADB"
+
+    # 2. Контрольний приклад розшифрування
+    assert permutation_decrypt("CADB", order) == "ABCD"
+
+    # 3. Round-trip із пробілами та пунктуацією
+    text = "TEST ME!"
+    encrypted = permutation_encrypt(text, order)
+    decrypted = permutation_decrypt(encrypted, order)
+
+    assert decrypted == text
+
+    # 4. Неповний останній блок
+    assert permutation_encrypt("HELLO", order) == "LHLEO"
+    assert permutation_decrypt("LHLEO", order) == "HELLO"
+
+    # 5. Некоректна перестановка повинна бути відхилена
+    try:
+        permutation_encrypt("ABCD", [0, 0, 2, 3])
+        assert False
+    except ValueError:
+        pass
+
+run_vigenere_tests()
+run_permutation_tests()
+
+
