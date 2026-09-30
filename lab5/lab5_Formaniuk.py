@@ -66,6 +66,29 @@ def frequency_shift_candidates(
 
     return candidates
 
+def run_self_checks() -> None:
+    # Контрольні приклади
+    assert caesar_decrypt("KHOOR", 3) == "HELLO"
+    assert caesar_decrypt("ABC XYZ!", 1) == "ZAB WXY!"
+
+    # Shift = 0
+    assert caesar_decrypt("HELLO", 0) == "HELLO"
+
+    # Shift = 26 повинен працювати як shift = 0
+    assert caesar_decrypt("HELLO", 26) == "HELLO"
+
+    # Пробіли та пунктуація не змінюються
+    assert caesar_decrypt("KHOOR, ZRUOG!", 3) == "HELLO, WORLD!"
+
+    # Порожній рядок
+    assert caesar_decrypt("", 5) == ""
+
+    # Brute force повинен повернути рівно 26 варіантів
+    assert len(brute_force_caesar("KHOOR")) == 26
+
+run_self_checks()
+
+
 frequencies = letter_frequencies(CIPHERTEXT)
 
 for letter, count in frequencies[:8]:
