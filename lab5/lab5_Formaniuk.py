@@ -87,7 +87,9 @@ def run_self_checks() -> None:
     assert len(brute_force_caesar("KHOOR")) == 26
 
 run_self_checks()
+print("LAB5_OK")
 
+print("\nTOP FREQUENCIES:")
 
 frequencies = letter_frequencies(CIPHERTEXT)
 
@@ -120,4 +122,10 @@ print(BEST_SHIFT)
 
 print("\nPLAINTEXT:")
 print(plaintext)
+
+# Висновок:
+# Brute force для шифру Цезаря практичний, тому що існує лише 26 можливих зсувів.
+# Найчастіші літери L, H та A дали корисну підказку, а shift 7 з'явився у кількох частотних гіпотезах.
+# Частотний аналіз сам по собі не гарантує правильний результат, тому що частоти залежать від довжини та змісту тексту.
+# Shift 7 обрано тому, що після розшифрування отримано зв'язний і зрозумілий англійський текст.
 
