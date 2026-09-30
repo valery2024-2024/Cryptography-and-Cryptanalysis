@@ -45,3 +45,10 @@ def vigenere_decrypt(text: str, key: str) -> str:
         else:
             result += char
     return result
+
+def validate_permutation_order(order: list[int]) -> None:
+    if not order:
+        raise ValueError("Order must not be empty")
+
+    if sorted(order) != list(range(len(order))):
+        raise ValueError("Order must be a valid permutation")
