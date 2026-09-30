@@ -91,3 +91,35 @@ def permutation_decrypt(text: str, order: list[int]) -> str:
 
     return result
 
+def run_vigenere_tests() -> None:
+    # 1. Контрольний приклад
+    assert vigenere_encrypt("HELLOWORLD", "KEY") == "RIJVSUYVJN"
+
+    # 2. Round-trip з пробілами та пунктуацією
+    text = "ATTACK AT DAWN!"
+    encrypted = vigenere_encrypt(text, "LEMON")
+
+    assert encrypted == "LXFOPV EF RNHR!"
+    assert vigenere_decrypt(encrypted, "LEMON") == text
+
+    # 3. Рядок із цифрами та пунктуацією
+    text_with_symbols = "TEST 123!"
+    encrypted_with_symbols = vigenere_encrypt(text_with_symbols, "KEY")
+
+    assert vigenere_decrypt(encrypted_with_symbols, "KEY") == text_with_symbols
+
+    # 4. Порожній ключ повинен бути відхилений
+    try:
+        vigenere_encrypt("HELLO", "")
+        assert False
+    except ValueError:
+        pass
+
+    # 5. Некоректний ключ повинен бути відхилений
+    try:
+        vigenere_encrypt("HELLO", "K3Y")
+        assert False
+    except ValueError:
+        pass
+
+run_vigenere_tests()
