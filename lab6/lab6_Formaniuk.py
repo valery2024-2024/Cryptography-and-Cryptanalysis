@@ -31,6 +31,18 @@ plain_xor = xor_bytes(p1, p2)
 recovered_p2 = xor_bytes(cipher_xor, p1)
 assert recovered_p2 == p2
 
+c2_fresh = xor_bytes(p2, k2)
+
+fresh_cipher_xor = xor_bytes(c1, c2_fresh)
+
+assert fresh_cipher_xor != plain_xor
+
+# Коли для другого повідомлення використовується інший ключ k2,
+# ключі k1 і k2 вже не знищують один одного при XOR.
+# Тому C1 XOR C2 більше не дорівнює P1 XOR P2,
+# і попередній простий спосіб відновлення p2 не працює.
+
+
 assert cipher_xor == plain_xor
 
 """
@@ -41,3 +53,7 @@ assert cipher_xor == plain_xor
 print("C1 XOR C2:", cipher_xor.hex())
 print("P1 XOR P2:", plain_xor.hex())
 print("RECOVERED P2:", recovered_p2.decode())
+print(
+    "FRESH-KEY COMPARISON:",
+    "different" if fresh_cipher_xor != plain_xor else "same"
+)
