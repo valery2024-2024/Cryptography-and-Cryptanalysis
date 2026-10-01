@@ -24,3 +24,17 @@ assert xor_bytes(c2, k1) == p2
 
 print("C1 HEX:", c1.hex())
 print("C2 HEX:", c2.hex())
+
+cipher_xor = xor_bytes(c1, c2)
+plain_xor = xor_bytes(p1, p2)
+
+assert cipher_xor == plain_xor
+
+"""
+Ключ k1 зникає, тому що він використаний в обох шифротекстах.
+При XOR двох шифротекстів отримуємо k1 XOR k1 = 0, тому залишається тільки p1 XOR p2.
+"""
+
+print("C1 XOR C2:", cipher_xor.hex())
+print("P1 XOR P2:", plain_xor.hex())
+
