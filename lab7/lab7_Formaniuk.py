@@ -25,3 +25,13 @@ print("C1 HEX:", c1.hex())
 
 assert len(c1) == 16
 
+c1_repeat = encrypt_block(key, block1)
+
+assert c1_repeat == c1
+
+print("C1 REPEAT HEX:", c1_repeat.hex())
+
+# Якщо використовувати той самий ключ і той самий блок,
+# AES повертає однаковий результат шифрування.
+# Це нормальна властивість AES, а не помилка програми.
+
