@@ -11,6 +11,11 @@ def encrypt_block(key: bytes, block: bytes) -> bytes:
     encryptor = cipher.encryptor()
     return encryptor.update(block) + encryptor.finalize()
 
+def decrypt_block(key: bytes, ciphertext: bytes) -> bytes:
+    cipher = Cipher(algorithms.AES(key), modes.ECB())
+    decryptor = cipher.decryptor()
+    return decryptor.update(ciphertext) + decryptor.finalize()
+
 def changed_bits(a: bytes, b: bytes) -> int:
     if len(a) != len(b):
         raise ValueError("lengths must match")
@@ -62,3 +67,13 @@ assert c1 != c2
 # Після зміни одного біта початкового тексту
 # результат шифрування AES сильно змінився.
 # Це і є лавинний ефект.
+
+restored = decrypt_block(key, c1)
+
+assert restored == block1
+
+print("RESTORED:", restored)
+
+# Для розшифрування використовується той самий ключ,
+# тому що AES є симетричним алгоритмом шифрування.
+
