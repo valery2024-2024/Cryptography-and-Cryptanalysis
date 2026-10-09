@@ -11,6 +11,11 @@ def encrypt_block(key: bytes, block: bytes) -> bytes:
     encryptor = cipher.encryptor()
     return encryptor.update(block) + encryptor.finalize()
 
+def changed_bits(a: bytes, b: bytes) -> int:
+    if len(a) != len(b):
+        raise ValueError("lengths must match")
+    return sum((x ^ y).bit_count() for x, y in zip(a, b))
+
 
 key = bytes.fromhex("00112233445566778899aabbccddeeff")
 block1 = b"MEET AT 10:00!!!"
@@ -35,3 +40,13 @@ print("C1 REPEAT HEX:", c1_repeat.hex())
 # AES повертає однаковий результат шифрування.
 # Це нормальна властивість AES, а не помилка програми.
 
+modified = bytearray(block1)
+modified[0] ^= 0x01
+block2 = bytes(modified)
+
+assert len(block2) == 16
+assert changed_bits(block1, block2) == 1
+
+print("BLOCK1:", block1)
+print("BLOCK2:", block2)
+print("CHANGED PLAINTEXT BITS:", changed_bits(block1, block2))
