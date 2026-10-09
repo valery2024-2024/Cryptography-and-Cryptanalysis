@@ -50,3 +50,15 @@ assert changed_bits(block1, block2) == 1
 print("BLOCK1:", block1)
 print("BLOCK2:", block2)
 print("CHANGED PLAINTEXT BITS:", changed_bits(block1, block2))
+c2 = encrypt_block(key, block2)
+
+print("C1 HEX:", c1.hex())
+print("C2 HEX:", c2.hex())
+print("CHANGED PLAINTEXT BITS:", changed_bits(block1, block2))
+print("CHANGED CIPHERTEXT BITS:", changed_bits(c1, c2))
+
+assert c1 != c2
+
+# Після зміни одного біта початкового тексту
+# результат шифрування AES сильно змінився.
+# Це і є лавинний ефект.
