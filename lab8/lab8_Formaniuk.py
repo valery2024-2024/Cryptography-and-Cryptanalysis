@@ -10,6 +10,11 @@ def encrypt(key: bytes, mode, data: bytes) -> bytes:
     encryptor = cipher.encryptor()
     return encryptor.update(data) + encryptor.finalize()
 
+def decrypt(key: bytes, mode, data: bytes) -> bytes:
+    cipher = Cipher(algorithms.AES(key), mode)
+    decryptor = cipher.decryptor()
+    return decryptor.update(data) + decryptor.finalize()
+
 def split_blocks(data: bytes, size: int = 16):
     return [data[i:i + size] for i in range(0, len(data), size)]
 
@@ -94,4 +99,18 @@ print_blocks("CTR WITH OTHER COUNTER", ctr_with_other_counter)
 # Якщо змінити початкове значення лічильника CTR
 # результат шифрування того самого повідомлення зміниться
 # Повторно використовувати той самий counter з тим самим ключем небезпечно
+
+# Перевірка розшифрування трьох режимів AES
+
+ecb_restored = decrypt(key, modes.ECB(), ecb_ciphertext)
+cbc_restored = decrypt(key, modes.CBC(iv1), cbc_ciphertext)
+ctr_restored = decrypt(key, modes.CTR(counter1), ctr_ciphertext)
+
+assert ecb_restored == plaintext
+assert cbc_restored == plaintext
+assert ctr_restored == plaintext
+
+print("ECB DECRYPTION OK:", ecb_restored == plaintext)
+print("CBC DECRYPTION OK:", cbc_restored == plaintext)
+print("CTR DECRYPTION OK:", ctr_restored == plaintext)
 
