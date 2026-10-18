@@ -85,3 +85,13 @@ assert len(set(ctr_blocks)) > 1
 # У режимі CTR для кожного блока змінюється значення лічильника.
 # Тому однакові блоки plaintext дають різні блоки ciphertext.
 
+ctr_with_other_counter = encrypt(key, modes.CTR(counter2), plaintext)
+
+assert ctr_with_other_counter != ctr_ciphertext
+
+print_blocks("CTR WITH OTHER COUNTER", ctr_with_other_counter)
+
+# Якщо змінити початкове значення лічильника CTR
+# результат шифрування того самого повідомлення зміниться
+# Повторно використовувати той самий counter з тим самим ключем небезпечно
+
