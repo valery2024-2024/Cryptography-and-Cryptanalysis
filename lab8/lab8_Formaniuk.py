@@ -114,3 +114,33 @@ print("ECB DECRYPTION OK:", ecb_restored == plaintext)
 print("CBC DECRYPTION OK:", cbc_restored == plaintext)
 print("CTR DECRYPTION OK:", ctr_restored == plaintext)
 
+# Фінальні перевірки лабораторної роботи №8
+
+assert len(plaintext) == 48
+assert ecb_blocks[0] == ecb_blocks[1] == ecb_blocks[2]
+assert len(set(cbc_blocks)) > 1
+assert len(set(ctr_blocks)) > 1
+assert cbc_with_other_iv != cbc_ciphertext
+assert ctr_with_other_counter != ctr_ciphertext
+
+assert decrypt(key, modes.ECB(), ecb_ciphertext) == plaintext
+assert decrypt(key, modes.CBC(iv1), cbc_ciphertext) == plaintext
+assert decrypt(key, modes.CTR(counter1), ctr_ciphertext) == plaintext
+
+print("LAB8_OK")
+
+# Висновок:
+# ECB: однакові блоки початкового тексту дають однакові
+# зашифровані блоки тому цей режим не приховує повтори
+# і не підходить для реального захисту повідомлень
+#
+# CBC: блоки пов'язані між собою тому повтори початкового
+# тексту не відображаються так як у ECB
+# Зміна IV змінює результат шифрування навіть з тим самим ключем
+#
+# CTR: для шифрування використовується змінний лічильник
+# тому однакові блоки повідомлення дають різні результати
+# Зміна початкового counter також змінює ciphertext
+# Повторно використовувати той самий потік лічильника
+# з одним ключем небезпечно
+
