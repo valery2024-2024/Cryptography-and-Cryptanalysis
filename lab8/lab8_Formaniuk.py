@@ -51,3 +51,16 @@ assert ecb_blocks[0] == ecb_blocks[1] == ecb_blocks[2]
 # Тому три однакові блоки plaintext дають три однакові блоки ciphertext
 # Це недолік ECB тому що повтори в повідомленні залишаються помітними
 
+cbc_ciphertext = encrypt(key, modes.CBC(iv1), plaintext)
+
+print_blocks("CBC", cbc_ciphertext)
+
+cbc_blocks = split_blocks(cbc_ciphertext)
+
+assert len(set(cbc_blocks)) > 1
+
+# У режимі CBC блоки пов'язані між собою
+# тому однакові блоки plaintext дають різні результати
+# IV використовується як початкове значення для першого блока
+# Завдяки IV перший блок не шифрується незалежно від попереднього контексту
+
