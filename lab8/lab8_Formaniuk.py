@@ -74,3 +74,14 @@ print_blocks("CBC WITH OTHER IV", cbc_with_other_iv)
 # навіть якщо ключ і початкове повідомлення залишаються однаковими
 # IV не є другим секретним ключем
 
+ctr_ciphertext = encrypt(key, modes.CTR(counter1), plaintext)
+
+print_blocks("CTR", ctr_ciphertext)
+
+ctr_blocks = split_blocks(ctr_ciphertext)
+
+assert len(set(ctr_blocks)) > 1
+
+# У режимі CTR для кожного блока змінюється значення лічильника.
+# Тому однакові блоки plaintext дають різні блоки ciphertext.
+
