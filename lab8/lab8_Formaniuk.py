@@ -3,6 +3,15 @@
 # Лабораторна робота №8
 # Тема: Режими ECB, CBC і CTR
 
+def split_blocks(data: bytes, size: int = 16):
+    return [data[i:i + size] for i in range(0, len(data), size)]
+
+
+def print_blocks(label: str, data: bytes):
+    print(label)
+    for i, part in enumerate(split_blocks(data), start=1):
+        print(f"  block {i}: {part.hex()}")
+
 key = bytes.fromhex("00112233445566778899aabbccddeeff")
 
 iv1 = bytes.fromhex("000102030405060708090a0b0c0d0e0f")
@@ -16,3 +25,10 @@ plaintext = block * 3
 
 assert len(block) == 16
 assert len(plaintext) == 48
+
+print_blocks("PLAINTEXT", plaintext)
+
+p_blocks = split_blocks(plaintext)
+
+assert p_blocks[0] == p_blocks[1] == p_blocks[2]
+
