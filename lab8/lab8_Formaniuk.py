@@ -3,6 +3,13 @@
 # Лабораторна робота №8
 # Тема: Режими ECB, CBC і CTR
 
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+
+def encrypt(key: bytes, mode, data: bytes) -> bytes:
+    cipher = Cipher(algorithms.AES(key), mode)
+    encryptor = cipher.encryptor()
+    return encryptor.update(data) + encryptor.finalize()
+
 def split_blocks(data: bytes, size: int = 16):
     return [data[i:i + size] for i in range(0, len(data), size)]
 
@@ -31,4 +38,16 @@ print_blocks("PLAINTEXT", plaintext)
 p_blocks = split_blocks(plaintext)
 
 assert p_blocks[0] == p_blocks[1] == p_blocks[2]
+
+ecb_ciphertext = encrypt(key, modes.ECB(), plaintext)
+
+print_blocks("ECB", ecb_ciphertext)
+
+ecb_blocks = split_blocks(ecb_ciphertext)
+
+assert ecb_blocks[0] == ecb_blocks[1] == ecb_blocks[2]
+
+# У режимі ECB кожен блок шифрується окремо
+# Тому три однакові блоки plaintext дають три однакові блоки ciphertext
+# Це недолік ECB тому що повтори в повідомленні залишаються помітними
 
