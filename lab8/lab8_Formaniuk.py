@@ -64,3 +64,13 @@ assert len(set(cbc_blocks)) > 1
 # IV використовується як початкове значення для першого блока
 # Завдяки IV перший блок не шифрується незалежно від попереднього контексту
 
+cbc_with_other_iv = encrypt(key, modes.CBC(iv2), plaintext)
+
+assert cbc_with_other_iv != cbc_ciphertext
+
+print_blocks("CBC WITH OTHER IV", cbc_with_other_iv)
+
+# Зміна IV впливає на результат шифрування CBC
+# навіть якщо ключ і початкове повідомлення залишаються однаковими
+# IV не є другим секретним ключем
+
