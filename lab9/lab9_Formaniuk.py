@@ -14,11 +14,8 @@ nonce = token_bytes(12)
 
 plaintext = b"Request #42: status=NEW"
 aad = b"service-request:v1"
-
 ciphertext = aes.encrypt(nonce, plaintext, aad)
-
 restored = aes.decrypt(nonce, ciphertext, aad)
-
 assert restored == plaintext
 assert len(ciphertext) == len(plaintext) + 16
 
@@ -35,13 +32,18 @@ def rejected(candidate: bytes, candidate_aad: bytes) -> bool:
     except InvalidTag:
         return True
     return False
-# Частина 2. Перевірка підміни ciphertext
 
 tampered_body = bytearray(ciphertext)
 tampered_body[0] ^= 1
 tampered_body = bytes(tampered_body)
-
 assert rejected(tampered_body, aad)
 
 print("BODY_REJECTED:", rejected(tampered_body, aad))
+
+tampered_tag = bytearray(ciphertext)
+tampered_tag[-1] ^= 1
+tampered_tag = bytes(tampered_tag)
+assert rejected(tampered_tag, aad)
+
+print("TAG_REJECTED:", rejected(tampered_tag, aad))
 
