@@ -52,3 +52,19 @@ assert rejected(ciphertext, changed_aad)
 
 print("AAD_REJECTED:", rejected(ciphertext, changed_aad))
 
+nonce2 = token_bytes(12)
+assert len(nonce2) == 12
+assert nonce2 != nonce
+ciphertext2 = aes.encrypt(nonce2, plaintext, aad)
+restored2 = aes.decrypt(nonce2, ciphertext2, aad)
+assert restored2 == plaintext
+assert ciphertext2 != ciphertext
+
+print("NEW_NONCE_DECRYPTION_OK:", restored2 == plaintext)
+print("NEW_NONCE_CIPHERTEXT_DIFFERENT:", ciphertext2 != ciphertext)
+
+# Для кожного нового шифрування AES-GCM з тим самим ключем
+# потрібно використовувати новий nonce
+# Повторне використання nonce з тим самим ключем небезпечне
+# оскільки може порушити конфіденційність і цілісність даних
+
