@@ -68,3 +68,24 @@ print("NEW_NONCE_CIPHERTEXT_DIFFERENT:", ciphertext2 != ciphertext)
 # Повторне використання nonce з тим самим ключем небезпечне
 # оскільки може порушити конфіденційність і цілісність даних
 
+assert restored == plaintext
+assert len(nonce) == 12
+assert len(ciphertext) == len(plaintext) + 16
+assert rejected(tampered_body, aad)
+assert rejected(tampered_tag, aad)
+assert rejected(ciphertext, b"service-request:v2")
+assert len(nonce2) == 12
+assert nonce2 != nonce
+assert aes.decrypt(nonce2, ciphertext2, aad) == plaintext
+
+print("LAB9_OK")
+
+# Висновок:
+# Authentication tag перевіряє цілісність і автентичність зашифрованих даних
+# AAD дозволяє захистити додаткові дані від підміни без їх шифрування
+# Якщо змінити ciphertext  tag або AAD  AES-GCM відхиляє дані через InvalidTag
+# Для кожного нового шифрування з тим самим ключем потрібен новий nonce
+# Повторне використання nonce може порушити конфіденційність і цілісність даних
+# AES-GCM кращий за ECB для сучасних програм
+# оскільки приховує повтори та перевіряє автентичність повідомлення
+
