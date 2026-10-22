@@ -47,3 +47,8 @@ assert rejected(tampered_tag, aad)
 
 print("TAG_REJECTED:", rejected(tampered_tag, aad))
 
+changed_aad = b"service-request:v2"
+assert rejected(ciphertext, changed_aad)
+
+print("AAD_REJECTED:", rejected(ciphertext, changed_aad))
+
