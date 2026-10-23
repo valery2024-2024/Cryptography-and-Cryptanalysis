@@ -21,8 +21,6 @@ def encrypt_file(source: Path, target: Path, key: bytes) -> None:
 
     payload = AESGCM(key).encrypt(nonce, plaintext, MAGIC)
     target.write_bytes(MAGIC + nonce + payload)
-    raise NotImplementedError("Complete encrypt_file")
-
 
 def decrypt_file(source: Path, target: Path, key: bytes) -> None:
     blob = source.read_bytes()
@@ -34,10 +32,8 @@ def decrypt_file(source: Path, target: Path, key: bytes) -> None:
     nonce = blob[len(MAGIC):len(MAGIC) + NONCE_SIZE]
     payload = blob[len(MAGIC) + NONCE_SIZE:]
 
-    # TODO 3: розшифрувати payload.
-    # TODO 4: записати результат тільки після успішної перевірки tag.
-    raise NotImplementedError("Complete decrypt_file")
-
+    plaintext = AESGCM(key).decrypt(nonce, payload, MAGIC)
+    target.write_bytes(plaintext)
 
 with TemporaryDirectory() as directory:
     folder = Path(directory)
@@ -54,6 +50,7 @@ with TemporaryDirectory() as directory:
     decrypt_file(encrypted, restored, key)
 
     assert restored.read_bytes() == original.read_bytes()
+    print("ROUNDTRIP_OK")
 
     # TODO 5: змінити один байт payload.
     # TODO 6: перевірити InvalidTag.
