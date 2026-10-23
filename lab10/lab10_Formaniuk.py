@@ -64,7 +64,24 @@ with TemporaryDirectory() as directory:
     # Зашифрований файл більший за початковий на 32 байти,
     # оскільки містить MAGIC (4), nonce (12) та tag (16).
 
+    damaged = folder / "damaged.edu"
+    damaged_restored = folder / "damaged_restored.txt"
 
-    # TODO 5: змінити один байт payload.
-    # TODO 6: перевірити InvalidTag.
+    tampered = bytearray(encrypted.read_bytes())
+
+    # Перші 16 байтів — MAGIC і nonce.
+    # Змінюємо перший байт ciphertext після заголовка.
+    tampered[len(MAGIC) + NONCE_SIZE] ^= 1
+
+    damaged.write_bytes(bytes(tampered))
+
+    try:
+        decrypt_file(damaged, damaged_restored, key)
+    except InvalidTag:
+        print("TAMPER_REJECTED")
+    else:
+        raise AssertionError("Damaged ciphertext was accepted")
+
+    assert not damaged_restored.exists()
+    
     # TODO 7: додати результати та NOTE.
