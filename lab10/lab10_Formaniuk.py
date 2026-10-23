@@ -97,5 +97,31 @@ with TemporaryDirectory() as directory:
         raise AssertionError("Invalid file format was accepted")
 
     assert not bad_restored.exists()
-    
-    # TODO 7: додати результати та NOTE.
+
+    assert original.exists()
+    assert encrypted.exists()
+    assert encrypted.read_bytes().startswith(MAGIC)
+
+    assert restored.read_bytes() == original.read_bytes()
+
+    assert encrypted.stat().st_size == (
+        original.stat().st_size + len(MAGIC) + NONCE_SIZE + 16
+    )
+
+    assert damaged.exists()
+    assert not damaged_restored.exists()
+
+    assert bad_format.exists()
+    assert not bad_restored.exists()
+
+    print("LAB10_OK")
+
+# NOTE:
+# MAGIC позначає формат зашифрованого файла та використовується як AAD
+# Nonce потрібен для шифрування і його не можна повторювати з тим самим ключем
+# Authentication tag перевіряє цілісність і автентичність зашифрованих даних
+# Відновлений файл записується тільки після успішного decrypt() щоб не зберігати неперевірені дані
+# ValueError означає неправильний формат файла а InvalidTag — невдалу перевірку автентичності
+# Зберігання ключа лише в пам'яті підходить для навчання
+# але не забезпечує відновлення файлів після завершення програми
+
