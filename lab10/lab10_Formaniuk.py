@@ -83,5 +83,19 @@ with TemporaryDirectory() as directory:
         raise AssertionError("Damaged ciphertext was accepted")
 
     assert not damaged_restored.exists()
+
+    bad_format = folder / "bad_format.edu"
+    bad_restored = folder / "bad_restored.txt"
+
+    bad_format.write_bytes(b"BAD")
+
+    try:
+        decrypt_file(bad_format, bad_restored, key)
+    except ValueError:
+        print("BAD_FORMAT_REJECTED")
+    else:
+        raise AssertionError("Invalid file format was accepted")
+
+    assert not bad_restored.exists()
     
     # TODO 7: додати результати та NOTE.
