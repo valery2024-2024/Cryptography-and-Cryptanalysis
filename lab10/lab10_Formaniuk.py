@@ -50,7 +50,20 @@ with TemporaryDirectory() as directory:
     decrypt_file(encrypted, restored, key)
 
     assert restored.read_bytes() == original.read_bytes()
+    assert encrypted.read_bytes().startswith(MAGIC)
+
+    original_size = original.stat().st_size
+    encrypted_size = encrypted.stat().st_size
+
+    assert encrypted_size == original_size + len(MAGIC) + NONCE_SIZE + 16
+
+    print("ORIGINAL SIZE:", original_size)
+    print("ENCRYPTED SIZE:", encrypted_size)
     print("ROUNDTRIP_OK")
+
+    # Зашифрований файл більший за початковий на 32 байти,
+    # оскільки містить MAGIC (4), nonce (12) та tag (16).
+
 
     # TODO 5: змінити один байт payload.
     # TODO 6: перевірити InvalidTag.
